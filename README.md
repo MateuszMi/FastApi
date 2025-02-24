@@ -6,7 +6,7 @@
     pip install fastapi uvicorn sqlalchemy pydantic
 
 ### Run the server:
-    uvicorn main:app --reload
+    uvicorn FastAPI:app --reload
 
 ### Open the API documentation in your browser:
 Swagger UI: http://127.0.0.1:8000/docs
