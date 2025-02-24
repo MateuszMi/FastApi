@@ -53,7 +53,7 @@ Example Response:
   {
   "id": "350e1400-e29b-51d4-a716-446655440002",
   "title": "The Speedway",
-  "description": "The fastes bikes",
+  "description": "The fastest bikes",
   "pages": 100
   }
 ```
@@ -65,7 +65,7 @@ Example Response:
   {
   "id": "350e1400-e29b-51d4-a716-446655440002",
   "title": "The Speedway",
-  "description": "The fastes bikes",
+  "description": "The fastest bikes",
   "pages": 100
   }
 ```
@@ -77,7 +77,7 @@ Example Request:
 ```
   {
   "title": "The Speedway 2",
-  "description": "The fastes bikes",
+  "description": "The fastest bikes",
   "pages": 120
   }
 ```
@@ -86,7 +86,7 @@ Example Response:
   {
   "id": "350e1400-e29b-51d4-a716-446655440002",
   "title": "The Speedway 2",
-  "description": "The fastes bikes",
+  "description": "The fastest bikes",
   "pages": 120
   }
 ```
@@ -105,7 +105,7 @@ Example Response:
   {
   "id": "350e1400-e29b-51d4-a716-446655440002",
   "title": "The Speedway 5",
-  "description": "The fastes bikes",
+  "description": "The fastest bikes",
   "pages": 120
   }
 ```
