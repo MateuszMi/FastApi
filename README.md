@@ -119,3 +119,11 @@ Deletes a book from the database.
   "detail": "Book deleted successfully"
 }
 ```
+
+## Start test
+
+### Install the required libraries:
+        pip install pytest httpx
+
+### Run the tests:
+    pytest tests.py
