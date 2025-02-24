@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy import create_engine, Column, String, Integer
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from pydantic import BaseModel
 from typing import Optional
@@ -21,7 +21,17 @@ class Book(Base):
     description = Column(String, index=True)
     pages = Column(Integer, index=True)
 
+class BookCreate(BaseModel):
+    title: str
+    description: str
+    pages: int
+
 class BookUpdate(BaseModel):
+    title: str
+    description: str
+    pages: int
+
+class BookPartUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
     pages: Optional[int] = None
@@ -36,12 +46,12 @@ def get_db():
         db.close()
 
 @app.post("/books/", response_model=dict)
-def create_book(title: str, description: str, pages: int, db: Session = Depends(get_db)):
-    book = Book(id=str(uuid.uuid4()), title=title, description=description, pages=pages)
-    db.add(book)
+def create_book(book: BookCreate, db: Session = Depends(get_db)):
+    book_db = Book(id=str(uuid.uuid4()), title=book.title, description=book.description, pages=book.pages)
+    db.add(book_db)
     db.commit()
-    db.refresh(book)
-    return {"id": book.id, "title": book.title, "description": book.description, "pages": book.pages}
+    db.refresh(book_db)
+    return {"id": book_db.id, "title": book_db.title, "description": book_db.description, "pages": book_db.pages}
 
 @app.get("/books/", response_model=list)
 def get_all_books(db: Session = Depends(get_db)):
@@ -63,19 +73,19 @@ def read_book_by_title(book_title: str, db: Session = Depends(get_db)):
     return {"id": book.id, "title": book.title, "description": book.description, "pages": book.pages}
 
 @app.put("/books/{book_id}", response_model=dict)
-def update_book(book_id: str, title: str, description: str, pages: int, db: Session = Depends(get_db)):
+def update_book(book_id: str, book: BookUpdate, db: Session = Depends(get_db)):
     book = db.query(Book).filter(Book.id == book_id).first()
     if book is None:
         raise HTTPException(status_code=404, detail="Book not found")
-    book.title = title
-    book.description = description
-    book.pages = pages
+    book.title = book.title
+    book.description = book.description
+    book.pages = book.pages
     db.commit()
     db.refresh(book)
     return {"id": book.id, "title": book.title, "description": book.description, "pages": book.pages}
 
 @app.patch("/books/{book_id}", response_model=dict)
-def patch_book(book_id: str, book_update: BookUpdate, db: Session = Depends(get_db)):
+def patch_book(book_id: str, book_update: BookPartUpdate, db: Session = Depends(get_db)):
     book = db.query(Book).filter(Book.id == book_id).first()
     if book is None:
         raise HTTPException(status_code=404, detail="Book not found")
